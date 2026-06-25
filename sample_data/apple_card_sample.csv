@@ -1,0 +1,4 @@
+Transaction Date,Clearing Date,Description,Merchant,Category,Type,Amount (USD)
+06/01/2026,06/02/2026,Coffee Shop Purchase,Sample Coffee,Dining,Purchase,5.75
+06/03/2026,06/04/2026,Grocery Purchase,Example Market,Groceries,Purchase,42.18
+06/05/2026,06/06/2026,Transit Pass,Sample Transit,Transportation,Purchase,20.00
