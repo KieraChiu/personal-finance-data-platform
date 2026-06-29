@@ -1,4 +1,5 @@
 from pathlib import Path
+from decimal import Decimal
 import hashlib
 import pandas as pd
 
@@ -60,11 +61,7 @@ def parse_apple_card_csv(file_path: Path) -> pd.DataFrame:
         errors="coerce",
     ).dt.date
 
-    dataframe["amount"] = pd.to_numeric(
-        dataframe["amount"],
-        errors="raise",
-    )
-
+    dataframe["amount"] = dataframe["amount"].astype(str).map(Decimal)
 
     dataframe["transaction_id"] = dataframe.apply(
         create_transaction_id,
