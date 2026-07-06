@@ -216,3 +216,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+.env
+private_data/
+real_data/
+credentials/
+*service-account*.json
+
+.DS_Store
+.DS_Store

@@ -1,0 +1,22 @@
+Main_category,subcategory,active
+Chiu,Chiu Expenses,true
+Chiu,Chiu Funding,true
+Chiu,Chiu Tuition,true
+Chiu,Chiu Rent,false
+Extracurriculars,CalSol,true
+Extracurriculars,Dance,true
+Shopping,Clothing,true
+Shopping,Functional,true
+Shopping,Other (Shopping),true
+Food,Kiwi Food,true
+Food,Groceries,true
+Food,Food w Friends,true
+Reimbursable,Settled,true
+Reimbursable,Fronted,true
+Money,Paycheck,true
+Money,Red Envelope,true
+Money,Other,true
+Personal,Trips,true
+Personal,Fun w Friends,true
+Education,,true
+Other,,true
