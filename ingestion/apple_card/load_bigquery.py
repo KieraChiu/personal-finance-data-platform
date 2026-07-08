@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import sys
 
 from google.cloud import bigquery
 
@@ -22,15 +23,16 @@ def load_apple_card_csv(
     staging_table = f"{project_id}.{dataset_id}.{table_name}_staging"
 
     schema = [
-        bigquery.SchemaField("transaction_date", "DATE"),
-        bigquery.SchemaField("clearing_date", "DATE"),
-        bigquery.SchemaField("description", "STRING"),
-        bigquery.SchemaField("merchant", "STRING"),
-        bigquery.SchemaField("category", "STRING"),
-        bigquery.SchemaField("transaction_type", "STRING"),
-        bigquery.SchemaField("amount", "NUMERIC"),
-        bigquery.SchemaField("transaction_id", "STRING"),
-    ]
+    bigquery.SchemaField("transaction_date", "DATE"),
+    bigquery.SchemaField("clearing_date", "DATE"),
+    bigquery.SchemaField("description", "STRING"),
+    bigquery.SchemaField("merchant", "STRING"),
+    bigquery.SchemaField("category", "STRING"),
+    bigquery.SchemaField("transaction_type", "STRING"),
+    bigquery.SchemaField("amount", "NUMERIC"),
+    bigquery.SchemaField("transaction_id", "STRING"),
+    bigquery.SchemaField("purchased_by", "STRING"),   
+]
 
     # Replace staging data on every run.
     staging_config = bigquery.LoadJobConfig(
@@ -46,32 +48,34 @@ def load_apple_card_csv(
     load_job.result()
 
     merge_query = f"""
-        MERGE `{target_table}` AS target
-        USING `{staging_table}` AS source
-        ON target.transaction_id = source.transaction_id
+    MERGE `{target_table}` AS target
+    USING `{staging_table}` AS source
+    ON target.transaction_id = source.transaction_id
 
-        WHEN NOT MATCHED THEN
-          INSERT (
-            transaction_date,
-            clearing_date,
-            description,
-            merchant,
-            category,
-            transaction_type,
-            amount,
-            transaction_id
-          )
-          VALUES (
-            source.transaction_date,
-            source.clearing_date,
-            source.description,
-            source.merchant,
-            source.category,
-            source.transaction_type,
-            source.amount,
-            source.transaction_id
-          )
-    """
+    WHEN NOT MATCHED THEN
+      INSERT (
+        transaction_date,
+        clearing_date,
+        description,
+        merchant,
+        category,
+        transaction_type,
+        amount,
+        transaction_id,
+        purchased_by
+      )
+      VALUES (
+        source.transaction_date,
+        source.clearing_date,
+        source.description,
+        source.merchant,
+        source.category,
+        source.transaction_type,
+        source.amount,
+        source.transaction_id,
+        source.purchased_by
+      )
+"""
 
     merge_job = client.query(merge_query)
     merge_job.result()
@@ -79,17 +83,11 @@ def load_apple_card_csv(
     print(f"Processed {len(dataframe)} rows into {target_table}")
 
 
+
+
 if __name__ == "__main__":
-    project_id = os.environ.get("GOOGLE_CLOUD_PROJECT")
+	project_id = os.environ.get("GOOGLE_CLOUD_PROJECT")
+	if not project_id:			
+		raise ValueError("GOOGLE_CLOUD_PROJECT environment variable is not set.")
 
-    if not project_id:
-        raise ValueError(
-            "GOOGLE_CLOUD_PROJECT environment variable is not set."
-        )
-
-    load_apple_card_csv(
-        Path("sample_data/apple_card_sample.csv"),
-        project_id,
-    )
-
-
+	load_apple_card_csv(Path(sys.argv[1]), project_id)
