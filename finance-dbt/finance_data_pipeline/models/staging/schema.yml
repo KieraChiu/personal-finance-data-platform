@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: stg_wells_fargo
+    columns:
+      - name: transaction_id
+        tests:
+          - unique
+          - not_null

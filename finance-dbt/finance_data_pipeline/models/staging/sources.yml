@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: finance_raw
+    database: finance-data-pipeline-500622
+    schema: finance_raw
+    tables:
+      - name: wells_fargo_historical_06302026
+      - name: plaid_transactions
+      - name: apple_card_transactions
