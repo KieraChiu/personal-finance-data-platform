@@ -6,5 +6,10 @@ sources:
     schema: finance_raw
     tables:
       - name: wells_fargo_historical_06302026
-      - name: plaid_transactions
       - name: apple_card_transactions
+      - name: plaid_transactions
+        config:
+          loaded_at_field: loaded_at
+          freshness:
+            warn_after: {count: 7, period: day}
+
