@@ -19,5 +19,4 @@ models:
   finance_pipeline:
     staging:
       +schema: staging
-    marts:
-      +schema: core
+    marts: {}

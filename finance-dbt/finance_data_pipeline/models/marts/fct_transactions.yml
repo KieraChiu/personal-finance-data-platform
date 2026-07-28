@@ -1,0 +1,10 @@
+version: 2
+models:
+  - name: fct_transactions
+    columns:
+      - name: transaction_id
+        tests:
+          - not_null
+      - name: amount_normalized
+        tests:
+          - not_null
