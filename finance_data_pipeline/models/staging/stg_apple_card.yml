@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: stg_apple_card
+    columns:
+      - name: transaction_id
+        tests:
+          - unique
+          - not_null
+      - name: amount
+        tests:
+          - not_null
+      - name: transaction_date
+        tests:
+          - not_null
